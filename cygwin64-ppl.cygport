@@ -1,0 +1,36 @@
+CROSS_HOST="x86_64-pc-cygwin"
+inherit cross
+
+NAME="cygwin64-ppl"
+VERSION=0.11.2
+RELEASE=1
+CATEGORY="Libs"
+SUMMARY="Parma Polyhedra Library"
+DESCRIPTION="The Parma Polyhedra Library (PPL) provides numerical abstractions
+especially targeted at applications in the field of analysis and verification
+of complex systems. These abstractions include convex polyhedra, defined as the
+intersection of a finite number of (open or closed) halfspaces, each described
+by a linear inequality (strict or non-strict) with rational coefficients; some
+special classes of polyhedra shapes that offer interesting complexity/precision
+tradeoffs; and grids which represent regularly spaced points that satisfy a set
+of linear congruence relations."
+HOMEPAGE="http://bugseng.com/products/ppl/"
+SRC_URI="http://bugseng.com/products/ppl/download/ftp/releases/${VERSION}/ppl-${VERSION}.tar.lzma"
+SRC_DIR="ppl-${VERSION}"
+PATCH_URI="
+	http://pkgs.fedoraproject.org/cgit/ppl.git/plain/ppl-gmp-5.1.0.patch
+	0.11-automake.patch
+"
+
+WANT_AUTOMAKE=1.11
+
+MAKEOPTS+=" bin_PROGRAMS= noinst_PROGRAMS= dist_man_MANS= "
+
+src_install() {
+	cd ${B}
+	cyginstall
+
+	rm -fr ${D}/usr/share/doc/${NAME}/
+}
+
+KEEP_LA_FILES="none"
